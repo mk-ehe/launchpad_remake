@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QMainWindow, QPushButton, QGridLayout, QApplication, QWidget, QLabel
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtCore import QUrl, Qt
+from PySide6.QtCore import QUrl, Qt, QLoggingCategory
 import sys, os
 
-from random import randint
+from random import choice
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -29,7 +29,33 @@ class MainWindow(QMainWindow):
             Qt.Key.Key_8: '8',
             Qt.Key.Key_9: '9',
         }
-        
+
+        self.button_colors = [
+            "RoyalBlue",
+            "CornflowerBlue",
+            "SkyBlue",
+            "Teal",
+            "MediumSeaGreen",
+            "LimeGreen",
+            "Gold",
+            "Orange",
+            "Coral",
+            "Crimson",
+            "MediumOrchid",
+            "BlueViolet",
+            "Plum",
+            "SlateBlue",
+            "DodgerBlue"
+            ]
+
+        self.setStyleSheet("""QPushButton{
+                    font-size: 25px;
+                    font-family: Arial;
+                    font-weight: bold;
+                    border: 3px solid;
+                    border-radius: 14px
+                    }""")
+                        
         self.gridInit()
         self.soundInit()
         
@@ -52,18 +78,14 @@ class MainWindow(QMainWindow):
             self.buttons[str(i)] = btn
 
             if i != 0:
-                self.buttons[str(i)].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
+                self.buttons[str(i)].setStyleSheet(f"""background: qlineargradient(
+                                                x1:0, y1:0, x2:0, y2:1,
+                                                stop:0 {choice(self.button_colors)},
+                                                stop:1 {choice(self.button_colors)});
+                                                """)
             else:
                 self.buttons[str(i)].setStyleSheet(f"""background-color: white""")
-            
-            self.setStyleSheet("""QPushButton{
-                               font-size: 25px;
-                               font-family: Arial;
-                               font-weight: bold;
-                               border: 3px solid;
-                               border-radius: 14px
-                               }""")
-
+                    
         self.buttons['0'].setFixedSize(180, 60)
 
         positions = [
@@ -75,6 +97,7 @@ class MainWindow(QMainWindow):
 
         for row, col, btn in positions:
             grid.addWidget(self.buttons[btn], row, col)
+
 
     def soundInit(self):
         for i in range(10):
@@ -107,8 +130,11 @@ class MainWindow(QMainWindow):
                 if self.buttons[btn_key].text() != '0':
                     if event.isAutoRepeat():
                         return
-                    self.buttons[btn_key].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
-
+                    self.buttons[btn_key].setStyleSheet(f"""background: qlineargradient(
+                                                        x1:0, y1:0, x2:0, y2:1,
+                                                        stop:0 {choice(self.button_colors)},
+                                                        stop:1 {choice(self.button_colors)});
+                                                        """)     
             self.playSound(btn_key)
         
         super().keyPressEvent(event)    # tutaj nic nie robi, ale normalnie obsługuje skróty klawiszowe itd. ogólnie logika Qt
@@ -132,6 +158,7 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+    QLoggingCategory.setFilterRules("qt.multimedia.*=false")
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
