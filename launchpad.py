@@ -50,8 +50,19 @@ class MainWindow(QMainWindow):
             btn = QPushButton(str(i))
             btn.setFixedSize(180, 180)
             self.buttons[str(i)] = btn
+
             if i != 0:
                 self.buttons[str(i)].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
+            else:
+                self.buttons[str(i)].setStyleSheet(f"""background-color: white""")
+            
+            self.setStyleSheet("""QPushButton{
+                               font-size: 25px;
+                               font-family: Arial;
+                               font-weight: bold;
+                               border: 3px solid;
+                               border-radius: 14px
+                               }""")
 
         self.buttons['0'].setFixedSize(180, 60)
 
@@ -93,7 +104,11 @@ class MainWindow(QMainWindow):
             
             if btn_key in self.buttons:
                 self.buttons[btn_key].setDown(True)
-            
+                if self.buttons[btn_key].text() != '0':
+                    if event.isAutoRepeat():
+                        return
+                    self.buttons[btn_key].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
+
             self.playSound(btn_key)
         
         super().keyPressEvent(event)    # tutaj nic nie robi, ale normalnie obsługuje skróty klawiszowe itd. ogólnie logika Qt
@@ -103,11 +118,8 @@ class MainWindow(QMainWindow):
         key = event.key()
         if key in self.key_map:
             btn_key = self.key_map[key]
-            
             if btn_key in self.buttons:
                 self.buttons[btn_key].setDown(False)
-                if self.buttons[btn_key].text() != '0':
-                    self.buttons[btn_key].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
 
 
     def playSound(self, key):
