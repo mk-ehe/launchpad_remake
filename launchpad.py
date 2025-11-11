@@ -32,20 +32,15 @@ class MainWindow(QMainWindow):
 
         self.button_colors = [
             "RoyalBlue",
-            "CornflowerBlue",
             "SkyBlue",
-            "Teal",
-            "MediumSeaGreen",
-            "LimeGreen",
-            "Gold",
+            "Yellow",
+            "Lime",
+            "Red",
             "Orange",
-            "Coral",
-            "Crimson",
             "MediumOrchid",
-            "BlueViolet",
-            "Plum",
-            "SlateBlue",
-            "DodgerBlue"
+            "Blue",
+            "Purple",
+            "Cyan"
             ]
 
         self.setStyleSheet("""QPushButton{
@@ -77,11 +72,17 @@ class MainWindow(QMainWindow):
             btn.setFixedSize(180, 180)
             self.buttons[str(i)] = btn
 
+            color1 = choice(self.button_colors)
+            color2 = choice(self.button_colors)
+
+            while color1 == color2:
+                color2 = choice(self.button_colors)
+
             if i != 0:
                 self.buttons[str(i)].setStyleSheet(f"""background: qlineargradient(
                                                 x1:0, y1:0, x2:0, y2:1,
-                                                stop:0 {choice(self.button_colors)},
-                                                stop:1 {choice(self.button_colors)});
+                                                stop:0 {color1},
+                                                stop:1 {color2});
                                                 """)
             else:
                 self.buttons[str(i)].setStyleSheet(f"""background-color: white""")
@@ -130,10 +131,16 @@ class MainWindow(QMainWindow):
                 if self.buttons[btn_key].text() != '0':
                     if event.isAutoRepeat():
                         return
+                    
+                    color1 = choice(self.button_colors)
+                    color2 = choice(self.button_colors)
+                    while color1 == color2:
+                        color2 = choice(self.button_colors)
+
                     self.buttons[btn_key].setStyleSheet(f"""background: qlineargradient(
                                                         x1:0, y1:0, x2:0, y2:1,
-                                                        stop:0 {choice(self.button_colors)},
-                                                        stop:1 {choice(self.button_colors)});
+                                                        stop:0 {color1},
+                                                        stop:1 {color2});
                                                         """)     
             self.playSound(btn_key)
         
