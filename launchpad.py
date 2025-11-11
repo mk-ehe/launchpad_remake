@@ -4,6 +4,8 @@ from PySide6.QtMultimedia import QSoundEffect
 from PySide6.QtCore import QUrl, Qt
 import sys, os
 
+from random import randint
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -84,7 +86,6 @@ class MainWindow(QMainWindow):
             return
             
         key = event.key()
-        
         if key in self.key_map:
             btn_key = self.key_map[key]
             
@@ -98,12 +99,13 @@ class MainWindow(QMainWindow):
 
     def keyReleaseEvent(self, event):
         key = event.key()
-
         if key in self.key_map:
             btn_key = self.key_map[key]
             
             if btn_key in self.buttons:
                 self.buttons[btn_key].setDown(False)
+                if self.buttons[btn_key].text() != '0':
+                    self.buttons[btn_key].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
 
 
     def playSound(self, key):
