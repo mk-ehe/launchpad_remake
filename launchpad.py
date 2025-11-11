@@ -50,6 +50,8 @@ class MainWindow(QMainWindow):
             btn = QPushButton(str(i))
             btn.setFixedSize(180, 180)
             self.buttons[str(i)] = btn
+            if i != 0:
+                self.buttons[str(i)].setStyleSheet(f"""background-color: rgb({randint(0, 255)}, {randint(0, 255)}, {randint(0, 255)})""")
 
         self.buttons['0'].setFixedSize(180, 60)
 
