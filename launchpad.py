@@ -60,6 +60,7 @@ class MainWindow(QMainWindow):
         bg.setPixmap(pixmap)
         bg.setScaledContents(True)
         bg.lower()
+        
 
     def gridInit(self):
         central_widget = QWidget()
@@ -119,7 +120,7 @@ class MainWindow(QMainWindow):
 
 
     def keyPressEvent(self, event):
-        if event.isAutoRepeat():        # nie ma spamu przy podczas przytrzymania przycisku
+        if event.isAutoRepeat():
             return
             
         key = event.key()
@@ -144,7 +145,7 @@ class MainWindow(QMainWindow):
                                                         """)     
             self.playSound(btn_key)
         
-        super().keyPressEvent(event)    # tutaj nic nie robi, ale normalnie obsługuje skróty klawiszowe itd. ogólnie logika Qt
+        super().keyPressEvent(event)
 
 
     def keyReleaseEvent(self, event):
